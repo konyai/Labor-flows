@@ -26,21 +26,21 @@ u.columns = u.columns.get_level_values('GEO')
 u = u.sort_index(ascending='True')
 
 # Total number of inactive
-resp2 = estat.data('lfsq_igan', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64', 'CITIZEN': 'TOTAL'},params={'startPeriod': '2007'})
+resp2 = estat.data('lfsq_igan', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64', 'CITIZEN': 'TOTAL'},params={'startPeriod': '2008'})
 inac = resp2.write()
 inac.columns = inac.columns.get_level_values('GEO')
 inac = inac.sort_index(ascending='True')
 
 # Employed by duration: first long term, next short term, finally no response
-resp3 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'M_GE3', 'NACE_R2': 'TOTAL'})
+resp3 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'M_GE3', 'NACE_R2': 'TOTAL'},params={'startPeriod': '2008'})
 el = resp3.write()
 el.columns = el.columns.get_level_values('GEO')
 el = el.sort_index(ascending='True')
-resp4 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'M_LT3', 'NACE_R2': 'TOTAL'})
+resp4 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'M_LT3', 'NACE_R2': 'TOTAL'},params={'startPeriod': '2008'})
 es = resp4.write()
 es.columns = el.columns.get_level_values('GEO')
 es = es.sort_index(ascending='True')
-resp5 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'NRP', 'NACE_R2': 'TOTAL'})
+resp5 = estat.data('lfsq_egdn2', key={'FREQ': 'Q', 'SEX': 'T', 'AGE': 'Y15-64','DURATION': 'NRP', 'NACE_R2': 'TOTAL'},params={'startPeriod': '2008'})
 enr = resp5.write()
 enr.columns = enr.columns.get_level_values('GEO')
 enr = enr.sort_index(ascending='True')
@@ -75,27 +75,40 @@ ems = es/(e+u)
 ems = ems.sort_index(ascending='True')
 un = u/(e+u)
 uns = us/(e+u)
-fu = 1-(un.shift(-1)-uns.shift(-1))/un
-rhou = (uns.shift(-1)/em)/(1-fu)
-fe = ems.shift(-1)/un
-rhoe = (1-(em.shift(-1)-ems.shift(-1))/em)/(1-fe)
+fu = 1-(un-uns)/un.shift(1)
+rhou = (uns/em.shift(1))/(1-fu)
+fe = ems/un.shift(1)
+rhoe = (1-(em-ems)/em.shift(1))/(1-fe)
 
 # Three state model
 pop = inac+e+u
-inac = inac/pop
-e = e/pop
-es = es/pop
-u = u/pop
-lf = es.shift(-1)/(1-e)
-rho = (1-(e.shift(-1)-es.shift(-1))/e)/(1-lf)
-lamb = 1-inac.shift(-1)/((1-rho)*e)
+inr = inac/pop
+er = e/pop
+esr = es/pop
+ur = u/pop
+lf = esr/(1-er.shift(1))
+rho = (1-(er-esr)/er.shift(1))/(1-lf)
+lamb = 1-inr/(1-(1-rho)*er.shift(1))
 f = lf/lamb
-s = lamb*(1-(1-rho)*e)
+s = lamb*(1-(1-rho)*er.shift(1))
 
 # Rates from gross flow data
 f_ue = flow['U_E']/(flow['U_U']+flow['U_E']+flow['U_I'])
 rho_eui = (flow['E_U']+flow['E_I'])/(flow['E_E']+flow['E_U']+flow['E_I'])
 lambda_gf = (flow['I_E']+flow['I_U'])/(flow['I_E']+flow['I_U']+flow['I_I'])
+
+#%%
+
+# Get vacancy data
+meta6 = estat.datastructure('DSD_jvs_q_nace2').write()
+resp7 = estat.data('jvs_q_nace2', key={'FREQ': 'Q', 'S_ADJ': 'NSA', 'NACE_R2': 'A-S', 'SIZECLAS': 'TOTAL', 'INDIC_EM': 'JOBVAC'},params={'startPeriod': '2008'})
+v = resp7.write()
+v.columns = v.columns.get_level_values('GEO')
+v = v.sort_index(ascending='True')
+
+# Estimate using searchers
+s = lamb*(1-(1-rho)*e)
+theta = v/s
 
 fu['HU'].plot(kind = 'line')
 
