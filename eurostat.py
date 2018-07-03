@@ -8,7 +8,6 @@ Created on Sat Jun 23 15:34:32 2018
 # Import datasets from Eurostat
 
 from pandasdmx import Request as rq
-import matplotlib.pyplot as plt
 
 estat = rq('ESTAT')
 
@@ -17,6 +16,7 @@ meta2 = estat.datastructure('DSD_lfsq_igan').write()
 meta3 = estat.datastructure('DSD_lfsq_egdn2').write()
 meta4 = estat.datastructure('DSD_lfsq_ugad').write()
 meta5 = estat.datastructure('DSD_lfsi_long_q').write()
+meta6 = estat.datastructure('DSD_jvs_q_nace2').write()
 # meta1.codelist[:50]
 
 # Total number of unemployed
@@ -62,6 +62,13 @@ for s in ['E_E','E_I','E_U','I_E','I_I','I_U','U_E','U_I','U_U']:
     flow[s] = resp.write()
     flow[s].columns = flow[s].columns.get_level_values('GEO')
     flow[s] = flow[s].sort_index(ascending='True')
+    
+# Get vacancy data
+resp7 = estat.data('jvs_q_nace2', key={'FREQ': 'Q', 'S_ADJ': 'NSA', 'NACE_R2': 'A-S', 'SIZECLAS': 'TOTAL', 'INDIC_EM': 'JOBRATE'},params={'startPeriod': '2008'})
+v = resp7.write()
+v.columns = v.columns.get_level_values('GEO')
+v = v.sort_index(ascending='True')
+
 #%%
 
 # Two state model
@@ -97,18 +104,75 @@ f_ue = flow['U_E']/(flow['U_U']+flow['U_E']+flow['U_I'])
 rho_eui = (flow['E_U']+flow['E_I'])/(flow['E_E']+flow['E_U']+flow['E_I'])
 lambda_gf = (flow['I_E']+flow['I_U'])/(flow['I_E']+flow['I_U']+flow['I_I'])
 
-#%%
+#%% Plots
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+sns.set_style("ticks")
+sns.set_context("paper")
 
-# Get vacancy data
-meta6 = estat.datastructure('DSD_jvs_q_nace2').write()
-resp7 = estat.data('jvs_q_nace2', key={'FREQ': 'Q', 'S_ADJ': 'NSA', 'NACE_R2': 'A-S', 'SIZECLAS': 'TOTAL', 'INDIC_EM': 'JOBVAC'},params={'startPeriod': '2008'})
-v = resp7.write()
-v.columns = v.columns.get_level_values('GEO')
-v = v.sort_index(ascending='True')
+# Job finding rates for the UK
+p1 = pd.concat([f['UK'],fu['UK'],fe['UK'],f_ue['UK']],axis = 1)
+p1.plot(kind='line')
+plt.legend(['Three states','Two states (U)','Two states (E)','UE flow rate'])
+plt.ylabel('Job finding rates')
+plt.xlabel('')
+plt.title('United Kingdom')
+plt.savefig('f_uk.eps',dpi=600)
+
+# Job finding rates for France
+p1 = pd.concat([f['FR'],fu['FR'],fe['FR'],f_ue['FR']],axis = 1)
+p1.plot(kind='line')
+plt.legend(['Three states','Two states (U)','Two states (E)','UE flow rate'])
+plt.ylabel('Job finding rates')
+plt.xlabel('')
+plt.title('France')
+plt.savefig('f_fr.eps',dpi=600)
+
+# Job finding rates for Poland
+p1 = pd.concat([f['PL'],fu['PL'],fe['PL'],f_ue['PL']],axis = 1)
+p1.plot(kind='line')
+plt.legend(['Three states','Two states (U)','Two states (E)','UE flow rate'])
+plt.ylabel('Job finding rates')
+plt.xlabel('')
+plt.title('Poland')
+plt.savefig('f_pl.eps',dpi=600)
+
+# Job finding rates for Poland
+p1 = pd.concat([f['SE'],fu['SE'],fe['SE'],f_ue['SE']],axis = 1)
+p1.plot(kind='line')
+plt.legend(['Three states','Two states (U)','Two states (E)','UE flow rate'])
+plt.ylabel('Job finding rates')
+plt.xlabel('')
+plt.title('Sweden')
+plt.savefig('f_se.eps',dpi=600)
+
+#%% Estimate the matching function
+import statsmodels.api as sm
+from statsmodels.iolib.summary2 import summary_col
+import numpy as np
 
 # Estimate using searchers
-s = lamb*(1-(1-rho)*e)
 theta = v/s
+endog = np.log(f['HU'][1:].values)
+exog = np.log(theta['HU'][1:].values)
+mod1 = sm.OLS(endog, sm.add_constant(exog),missing = 'drop')
+res1 = mod1.fit()
+#print(res1.summary())
 
-fu['HU'].plot(kind = 'line')
+# Estimate using unemployed
+theta2 = v/ur
+endog = np.log(f['HU'][1:].values)
+exog = np.log(theta2['HU'][1:].values)
+mod2 = sm.OLS(endog, sm.add_constant(exog),missing = 'drop')
+res2 = mod2.fit()
+#print(res2.summary())
+
+# Export results
+dfoutput = summary_col([res1,res2],stars=True)
+print(dfoutput)
+tabl = open('myreg.tex', 'w')
+tabl.write(dfoutput.as_latex())
+tabl.close()
+#fu['HU'].plot(kind = 'line')
 
