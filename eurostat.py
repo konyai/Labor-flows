@@ -5,6 +5,7 @@ Created on Sat Jun 23 15:34:32 2018
 
 @author: konyai
 """
+#%%
 # Import datasets from Eurostat
 
 from pandasdmx import Request as rq
@@ -174,5 +175,5 @@ print(dfoutput)
 tabl = open('myreg.tex', 'w')
 tabl.write(dfoutput.as_latex())
 tabl.close()
-#fu['HU'].plot(kind = 'line')
+fu['HU'].plot(kind = 'line')
 
