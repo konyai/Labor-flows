@@ -1,0 +1,95 @@
+---
+title: "Labor market"
+author: "Istvan Konya"
+output: html_document
+---
+
+## Introduction
+
+Start with some basic housekeeping: load packages, define colors.
+
+```{r include=FALSE}
+
+library(tidyverse)
+library(eurostat)
+library(zoo)
+
+# Define my favorite color scheme
+col1 = "#013C58"
+col3 = "#800000"
+col2 = "#E69C38"
+col5 = "#808000"
+col4 = "#C0C0C0"
+col6 = "#7093DB"
+cols = c(col1,col2,col3,col4,col5,col6)
+
+eu <- c("AT","BE","DK","DE","EL","ES","FR","IT","CY","MT","NL","PT","FI","SE",
+        "CZ","HU","PL","SK","RO","BG","SI","HR","EE","LT","LV","LU","IE")
+```
+
+## Labor market data
+
+Labor market stocks, seasonally adjusted. Since inactivity is not seasonally adjusted, calculate it from adjusted employment and unemployment, and unadjusted population data.
+
+```{r warning=FALSE, message=FALSE}
+
+stock <- get_eurostat("lfsi_emp_q", filters = list(geo=eu,unit="THS_PER",sex="T",age="Y15-74",
+                                                   s_adj="SA"))
+stock <- stock %>% pivot_wider(id_cols=c(geo,time),names_from=indic_em,values_from = values)
+stock$time <- as.yearqtr(stock$time)
+stock <- stock %>% mutate(une = ACT-EMP_LFS) %>% select(geo,time,une,emp=EMP_LFS)
+
+pop <- get_eurostat("lfsq_pganws", filters = list(geo=eu,sex="T",age="Y15-74",wstatus="POP",
+                                                   citizen="TOTAL"))
+pop <- pop %>% select(geo,time,pop=values)
+pop$time <- as.yearqtr(pop$time)
+
+stock <- stock %>% left_join(pop)
+stock <- stock %>% filter(time > "2008 Q4")
+stock <- stock %>% mutate(ina=pop-emp-une)
+```
+
+Recent job leavers (s.a.) - same as recently unemployed. Merge with stocks.
+
+```{r warning=FALSE, message=FALSE}
+
+rjl <- get_eurostat("lfsi_lea_q",
+                    filters = list(geo=eu,s_adj="SA",age="Y15-74",sex="T",unit="THS"))
+rjl <- rjl %>% select(geo,time,unes=values)
+rjl$time <- as.yearqtr(rjl$time)
+df <- left_join(stock,rjl)
+```
+
+Recent job starters (s.a.). Merge with stocks.
+
+```{r warning=FALSE, message=FALSE}
+
+rjs <- get_eurostat("lfsi_sta_q",
+                    filters = list(geo=eu,age="Y15-74",sex="T",s_adj="SA",unit="THS"))
+rjs <- rjs %>% select(geo,time,emps=values)
+rjs$time <- as.yearqtr(rjs$time)
+df <- left_join(df,rjs)
+```
+
+Labor market transitions
+
+```{r warning=FALSE, message=FALSE}
+
+tran <- get_eurostat("lfsi_long_q",
+                     filters = list(unit = "THS_PER", s_adj = "SA", geo = eu,
+                                    sex = "T"))
+tran$time <- as.yearqtr(tran$time)
+tran <- tran %>% pivot_wider(id_cols=c(geo,time),names_from="indic_em",values_from=values)
+tran <- tran %>% filter(time > "2007 Q4")
+```
+
+## Calculations
+
+For now, do not worry about time aggregation. Convert all variables to rates first.
+
+```{r warning=FALSE, message=FALSE}
+
+df <- df %>% mutate(er = emp/pop, ur = une/pop, ir = ina/pop, esr = emps/pop, usr = unes/pop)
+df <- df %>% select(geo,time,er,ur,ir,esr,usr)
+df <- df %>% group_by(geo) %>% mutate(u_out = 1-(ur-usr)/lag(ur), e_out = 1-(er-esr)/lag(er))
+```
