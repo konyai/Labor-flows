@@ -49,13 +49,13 @@ stock <- stock %>% filter(time > "2008 Q4")
 stock <- stock %>% mutate(ina=pop-emp-une)
 ```
 
-Recent job leavers (s.a.) - same as recently unemployed. Merge with stocks.
+Recent job leavers (s.a.). Merge with stocks.
 
 ```{r warning=FALSE, message=FALSE}
 
 rjl <- get_eurostat("lfsi_lea_q",
                     filters = list(geo=eu,s_adj="SA",age="Y15-74",sex="T",unit="THS"))
-rjl <- rjl %>% select(geo,time,unes=values)
+rjl <- rjl %>% select(geo,time,rjl=values)
 rjl$time <- as.yearqtr(rjl$time)
 df <- left_join(stock,rjl)
 ```
@@ -66,7 +66,7 @@ Recent job starters (s.a.). Merge with stocks.
 
 rjs <- get_eurostat("lfsi_sta_q",
                     filters = list(geo=eu,age="Y15-74",sex="T",s_adj="SA",unit="THS"))
-rjs <- rjs %>% select(geo,time,emps=values)
+rjs <- rjs %>% select(geo,time,rjs=values)
 rjs$time <- as.yearqtr(rjs$time)
 df <- left_join(df,rjs)
 ```
@@ -83,13 +83,67 @@ tran <- tran %>% pivot_wider(id_cols=c(geo,time),names_from="indic_em",values_fr
 tran <- tran %>% filter(time > "2007 Q4")
 ```
 
+Download duration and tenure data from the detailed quarterly tables
+
+```{r warning=FALSE, message=FALSE}
+
+dur <- get_eurostat("lfsq_ugad", filters = list(geo=eu,duration=c("M_LT1","M1-2"),
+                                                age="Y15-74",sex="T"))
+dur <- dur %>% pivot_wider(id_cols = c(geo,time), names_from = duration,
+                           values_from = values)
+dur <- dur %>% mutate(unes = `M_LT1`+`M1-2`) %>% select(geo,time,unes)
+dur$time <- as.yearqtr(dur$time)
+
+ten <- get_eurostat("lfsq_egdn2", filters = list(geo=eu,duration="M_LT3",nace_r2="TOTAL",
+                                                age="Y15-74",sex="T"))
+ten <- ten %>% select(geo,time,emps = values)
+ten$time <- as.yearqtr(ten$time)
+
+df <- df %>% left_join(dur)
+df <- df %>% left_join(ten)
+```
+
+Recent job starters against short-duration employment. These are the same series!
+
+```{r warning=FALSE, message=FALSE}
+
+df %>% filter(geo=="HU") %>% ggplot() + geom_line(aes(x=time,y=rjs),color=col1) +
+  geom_line(aes(x=time,y=emps),color=col2)
+```
+
+Recent job leavers are those who lost their jobs and did not immediately started a new one. Time aggregation complicates matters, because they might have found a new one in a quarter.
+
+Plot recent job leavers against those who transitioned from employment into unemployment or inactivity.
+
+```{r warning=FALSE, message=FALSE}
+
+ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=rjl),color=col1) +
+  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=E_U),color=col2)
+```
+
 ## Calculations
 
-For now, do not worry about time aggregation. Convert all variables to rates first.
+Convert all variables to rates first. No need to worry about time aggregation for these rates, only for the complementary ones.
 
 ```{r warning=FALSE, message=FALSE}
 
 df <- df %>% mutate(er = emp/pop, ur = une/pop, ir = ina/pop, esr = emps/pop, usr = unes/pop)
 df <- df %>% select(geo,time,er,ur,ir,esr,usr)
 df <- df %>% group_by(geo) %>% mutate(u_out = 1-(ur-usr)/lag(ur), e_out = 1-(er-esr)/lag(er))
+tran <- tran %>% group_by(geo) %>% mutate(u_out_tr = (U_E+U_I)/(U_E+U_I+U_U),
+                        e_out_tr = (E_U+E_I)/(E_E+E_I+E_U))
+```
+
+Now compute the same measures using transitions data.
+
+```{r warning=FALSE, message=FALSE}
+
+
+
+ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=u_out),color=col1) +
+  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=u_out_tr),color=col2)
+
+ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=e_out),color=col1) +
+  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=e_out_tr),color=col2)
+
 ```

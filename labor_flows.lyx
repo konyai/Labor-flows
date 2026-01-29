@@ -1,0 +1,245 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Paragraph
+Unemployment inflows and outflows
+\end_layout
+
+\begin_layout Itemize
+Let 
+\begin_inset Formula $\rho_{t}^{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{t}^{u}$
+\end_inset
+
+ denote the continuous-time unemployment inflow and outflow rates
+\end_layout
+
+\begin_layout Itemize
+Using quarterly duration data,
+ one can calculate the outflow rate directly
+\begin_inset Formula 
+\begin{align*}
+e^{-f_{t}^{u}} & =\frac{u_{t+1}-u_{t+1}^{s}}{u_{t}}\\
+f_{t}^{u} & =-\log\frac{u_{t+1}-u_{t+1}^{s}}{u_{t}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Now solve the differential equation for unemployment to get the inflow rate
+\begin_inset Formula 
+\begin{align*}
+\dot{u}_{t+\tau} & =\rho_{t}^{u}\left(1-u_{t+\tau}\right)-f_{t}^{u}u_{t+\tau}\\
+\rho_{t}^{u} & =\dot{u}_{t+\tau}+\left(\rho_{t}^{u}+f_{t}^{u}\right)u_{t+\tau}\\
+\rho_{t}^{u}e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau} & =\left[\dot{u}_{t+\tau}+\left(\rho_{t}^{u}+f_{t}^{u}\right)u_{t+\tau}\right]e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau}\\
+u_{t+\tau}e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau} & =\rho_{t}^{u}\int_{0}^{\tau}e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\nu}\,d\nu+c\\
+u_{t+\tau}e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau} & =\rho_{t}^{u}\left[\frac{e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\nu}}{\rho_{t}^{u}+f_{t}^{u}}\right]_{0}^{\tau}+c\\
+u_{t+\tau}e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau} & =\frac{\rho_{t}^{u}}{\rho_{t}^{u}+f_{t}^{u}}\left[e^{\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau}-1\right]+u_{t}\\
+u_{t+\tau} & =\frac{\rho_{t}^{u}}{\rho_{t}^{u}+f_{t}^{u}}\left[1-e^{-\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau}\right]+u_{t}e^{-\left(\rho_{t}^{u}+f_{t}^{u}\right)\tau}\\
+ & \Downarrow\\
+u_{t+1} & =\frac{\rho_{t}^{u}}{\rho_{t}^{u}+f_{t}^{u}}\left[1-e^{-\left(\rho_{t}^{u}+f_{t}^{u}\right)}\right]+e^{-\left(\rho_{t}^{u}+f_{t}^{u}\right)}u_{t}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Calculate the quarterly inflow and outflow probability
+\begin_inset Formula 
+\begin{align*}
+R_{t}^{u} & =1-e^{-\rho_{t}^{u}}\\
+F_{t}^{u} & =1-e^{-f_{t}^{u}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Employment inflows and outflows
+\end_layout
+
+\begin_layout Itemize
+Let 
+\begin_inset Formula $\rho_{t}^{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{t}^{e}$
+\end_inset
+
+ denote the employment outflow and inflow rates,
+ respectively.
+ Note that these mirror the unemployment variables,
+ so they mean the opposite in the employment context.
+\end_layout
+
+\begin_layout Itemize
+Using quarterly data,
+ one can calculate the outflow rate directly
+\begin_inset Formula 
+\begin{align*}
+e^{-\rho_{t}^{e}} & =\frac{n_{t+1}-n_{t+1}^{s}}{n_{t}}\\
+\rho_{t}^{e} & =-\log\frac{n_{t+1}-n_{t+1}^{s}}{n_{t}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Now solve the differential equation for employment to get the inflow rate
+\begin_inset Formula 
+\begin{align*}
+\dot{n}_{t+\tau} & =f_{t}^{e}\left(1-n_{t+\tau}\right)-\rho_{t}^{e}n_{t+\tau}\\
+f_{t}^{e} & =\dot{n}_{t+\tau}+\left(\rho_{t}^{e}+f_{t}^{e}\right)n_{t+\tau}\\
+f_{t}^{e}e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau} & =\left[\dot{n}_{t+\tau}+\left(\rho_{t}^{e}+f_{t}^{e}\right)n_{t+\tau}\right]e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau}\\
+n_{t+\tau}e^{\left(\rho_{t}^{e}+f_{t}^{u}\right)\tau} & =f_{t}^{e}\int_{0}^{\tau}e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\nu}\,d\nu+c\\
+n_{t+\tau}e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau} & =f_{t}^{e}\left[\frac{e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\nu}}{\rho_{t}^{e}+f_{t}^{e}}\right]_{0}^{\tau}+c\\
+n_{t+\tau}e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau} & =\frac{f_{t}^{e}}{\rho_{t}^{e}+f_{t}^{e}}\left[e^{\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau}-1\right]+n_{t}\\
+n_{t+\tau} & =\frac{f_{t}^{e}}{\rho_{t}^{e}+f_{t}^{e}}\left[1-e^{-\left(\rho_{t}^{e}+f_{t}^{e}\right)\tau}\right]+n_{t}e^{-\left(\rho_{t}^{n}+f_{t}^{n}\right)\tau}\\
+ & \Downarrow\\
+n_{t+1} & =\frac{f_{t}^{e}}{\rho_{t}^{e}+f_{t}^{e}}\left[1-e^{-\left(\rho_{t}^{e}+f_{t}^{e}\right)}\right]+e^{-\left(\rho_{t}^{e}+f_{t}^{e}\right)}u_{t}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Calculate the quarterly outflow and inflow probability
+\begin_inset Formula 
+\begin{align*}
+R_{t}^{e} & =1-e^{-\rho_{t}^{e}}\\
+F_{t}^{e} & =1-e^{-f_{t}^{e}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Data
+\end_layout
+
+\begin_layout Itemize
+Recent job starters and short-tenure employment are exactly the same data.
+\end_layout
+
+\begin_layout Itemize
+Recent job leavers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Can be unemployed and inactive,
+ but not job-to-job transitions
+\end_layout
+
+\begin_layout Itemize
+Can also include job changers,
+ but only if they went through an unemployment or inactivity spell
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
