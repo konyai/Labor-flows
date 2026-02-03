@@ -89,6 +89,86 @@
 \begin_body
 
 \begin_layout Paragraph
+Start without time aggregation
+\end_layout
+
+\begin_layout Itemize
+Job separation rate
+\begin_inset Formula 
+\[
+f_{t}^{EE}+f_{t}^{EU}+f_{t}^{EI}=1-\frac{n_{t+1}-n_{t+1}^{s}}{n_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Employment outflow
+\begin_inset Formula 
+\[
+f_{t}^{EU}+f_{t}^{EI}=\frac{rjl_{t+1}}{n_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Unemployment outflow
+\begin_inset Formula 
+\[
+f_{t}^{UE}+f_{t}^{UI}=1-\frac{u_{t+1}-u_{t+1}^{s}}{u_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Unemployment flow equation
+\begin_inset Formula 
+\[
+u_{t+1}=\left(1-f_{t}^{UE}-f_{t}^{UI}\right)u_{t}+f_{t}^{EU}n_{t}+f_{t}^{IU}i_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Employment flow equation
+\begin_inset Formula 
+\[
+n_{t+1}=\left(1-f_{t}^{EU}-f_{t}^{EI}\right)n_{t}+f_{t}^{UE}u_{t}+f_{t}^{IE}\left(1-n_{t}-u_{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Problem:
+ 7 flows,
+ only 5 equations
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+No obvious further assumptions
+\end_layout
+
+\begin_layout Itemize
+Job-to-job flows are identified
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
 Unemployment inflows and outflows
 \end_layout
 
@@ -231,18 +311,35 @@ Recent job leavers
 
 \begin_deeper
 \begin_layout Itemize
-Can be unemployed and inactive,
- but not job-to-job transitions
-\end_layout
-
-\begin_layout Itemize
 Can also include job changers,
  but only if they went through an unemployment or inactivity spell
 \end_layout
 
 \begin_layout Itemize
-If we ignore time aggregation,
- these
+Assume for now that they are either unemployed or inactive
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+General problem:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+cross-section refers to 
+\begin_inset Quotes eld
+\end_inset
+
+previous 3 months
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+panel spacing can be more than 3 months,
+ due to the continuous (weekly) nature of the LFS
 \end_layout
 
 \end_deeper
