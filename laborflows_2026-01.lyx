@@ -1,0 +1,2286 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\makeatletter
+\renewcommand\@biblabel[1]{}
+\makeatother
+\date{}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "ae" "Calibri"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref false
+\papersize a4
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Job market transitions:
+ identification from cross-sectional data
+\end_layout
+
+\begin_layout Author
+István Kónya
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Corvinus University and CERS.
+ E-mail:
+ istvan.konya@uni-corvinus.hu.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+It is common practice to compute labor market transition rates assuming that the economically relevant transitions occur between employment and unemployment only and using data on unemployment duration.
+ However,
+ if there are significant flows between labor force participation and inactivity,
+ ignoring the participation margin can lead to biased results.
+ This paper proposes an alternative approach based on a three-state framework that is easily estimable using publicly available data on labor market stocks and employment tenure.
+ We show that such data carries more,
+ and more relevant information than unemployment duration,
+ including information on job-to-job transitions.
+ We use the case of Canada and the United Kingdom as illustrative examples,
+ contrasting our method with commonly used alternatives.
+ Results show that the extra information provided by our method can be crucial,
+ especially when looking at economies in an upswing.
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+JEL codes
+\series default
+:
+ E24,
+ J63,
+ J64
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Keywords
+\series default
+:
+ labor market flows,
+ job tenure,
+ measurement,
+ job search
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Measuring and explaining job creation and job separation rates is a fundamental part of labor economics (Mortensen 1970,
+ Pissarides 1985,
+ Mortensen and Pissarides,
+ 1994).
+ Transition rates between labor market states can be calculated using data on gross flows in an unrestricted way.
+ In some countries,
+ statistical offices publish labor market flows based on panel datasets,
+ such as the Labor Force Survey (LFS) in the European Union and the Current Population Survey (CPS) in the United States.
+ A limitation of the panel method is that the data are not representative of the general population,
+ and flows constructed from it are not consistent with aggregate stocks computed from the full cross-section.
+ This problem can be treated using 
+\emph on
+statistical methods
+\emph default
+ (Frazis et al.,
+ 2005),
+ but these do not make use of the logic of the underlying 
+\emph on
+economic
+\emph default
+ processes.
+ Unfortunately,
+ for many countries,
+ gross flows data are not reported,
+ and it is hard or impossible to acquire the original micro-level panel dataset.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+A possible way out is the approach of Casado,
+ Fernandez és Jimeno (2015),
+ using cross-sectional microdata with retrospective information on labor market status.
+ This method allows for the measurement of flows,
+ but only at the annual frequency and is likely to be contaminated by measurement error due to recall.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An alternative method widely used in the literature is to concentrate on 
+\emph on
+employment
+\emph default
+ and 
+\emph on
+unemployment
+\emph default
+ only,
+ and approximate job separation and job creation rates by unemployment inflow and outflow rates (Shimer 2005).
+ Shimer's method is based on the assumption that the participation decision can be ignored and that job to job transitions are not important,
+ therefore data on unemployment duration is sufficient to calculate the rates of interest.
+ Despite the questionable assumptions,
+ the method is popular,
+ perhaps because it is straightforward anduses publicly available data on unemployment duration.
+\end_layout
+
+\begin_layout Standard
+Recently both the empirical literature on labor flows,
+ and the macro literature on business cycles (Elsby,
+ Hobijn and Sahin 2015;
+ Campolmi and Gnocchi 2014) have questioned the omission of inactivity.
+ Research in labor economics has been looking at the differences between unemployment and out of the labor force status (see an overview in Dunson and Stone,
+ 2017).
+ Also,
+ Krause and Lubik (2006) and Karahan et al.
+ (2017) provide evidence the importance of job to job transitions,
+ especially in booms.
+ This idea has reflections also in research on labor market transitions.
+ Hobijn and Sahin (2009),
+ in particular,
+ used job tenure information to compute the job separation rate.
+ However,
+ they use unemployment duration data for the job finding rate.
+ This is in line with their maintained two-state assumption and is likely to miss important dynamics.
+ Also,
+ their estimation method is relatively complex,
+ making it a less likely candidate for widespread adoption than that of Shimer (2015).
+\end_layout
+
+\begin_layout Standard
+This paper overcomes the limitations,
+ but retains the practical simplicity of the approach of Shimer (2015).
+ It provides a straightforward method for the estimation of job finding- and job separation rates based on job tenure data.
+ The method is consistent with both job to job transitions and the structure provided by the search and matching model
+\emph on
+,
+
+\emph default
+ yielding also a 
+\emph on
+search participation rate
+\emph default
+.
+ The method has the added benefit of using only openly available data,
+ often at the quarterly frequency
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Hobijn and Sahin (2009) and Casado,
+ Fernandez és Jimeno (2015) work on annual frequency
+\end_layout
+
+\end_inset
+
+.
+ We illustrate the use of the method by applying it to data from Canada and the United Kingdom.
+\end_layout
+
+\begin_layout Standard
+In what follows,
+ we first outline a simple model leading to employment flow equations and show identification based on that.
+ Then we discuss alternative measures and thirdly,
+ we introduce the data we use and provide empirical results to illustrate our approach.
+ Finally we discuss the possibility for further identification based on the data we have at hand.
+\end_layout
+
+\begin_layout Section
+Labor flows from job tenure:
+ a model and identification
+\end_layout
+
+\begin_layout Standard
+Shimer (2005) shows how to compute unemployment inflow and outflow rates using data on the unemployment rate and on unemployment duration.
+ He interprets these as the 
+\emph on
+job finding rate
+\emph default
+ and the 
+\emph on
+job separation rate
+\emph default
+.
+ In the basic search and matching model (Pissarides 2000,
+ Chapter 1) these two rates determine changes in unemployment and employment since the labor force participation decision is not taken into account.
+ However,
+ if three labor market states are relevant instead of two,the concepts of job finding and job separation are wrongly identified from unemployment dynamics and this approach is not sufficient to correctly identify the relevant transition rates.
+ This section shows how to overcome this restriction in a straightforward and consistent way.
+ In particular,
+ using information on 
+\emph on
+inactivity
+\emph default
+ and 
+\emph on
+job tenure,
+
+\emph default
+ besides that on employment and unemployment,
+ along with some structure imposed by theory,
+ makes it possibleto identify key transition probabilities relevant for macroeconomic- and labor market analysis.
+\end_layout
+
+\begin_layout Subsection
+Employment flows
+\end_layout
+
+\begin_layout Standard
+Our model assumes that time is discrete,
+ but the model frequency can be arbitrarily high.
+ Data is available at a quarterly frequency,
+ but it is possible that over a quarter at least workers experience multiple transitions.
+ This is the well-known time aggregation problem,
+ introduced into the labor flow literature by Shimer (2005).
+ While Shimer treated the problem using a continuous time framework,
+ our setup is more conducive to discrete time methods,
+ applicable to the daily frequency,
+ the highest realistic one.
+\end_layout
+
+\begin_layout Standard
+To fix ideas,
+ we will assume that decisions are made daily,
+ and we aggregate these daily flows into quarterly probabilities.
+ Let 
+\begin_inset Formula $t$
+\end_inset
+
+ denote the start of the current quarter,
+ and we use the index 
+\begin_inset Formula $\tau$
+\end_inset
+
+ to index days within a quarter.
+ There are 
+\begin_inset Formula $T=365/4$
+\end_inset
+
+ days in a quarter (we ignore leap years and the minimal differences that come from the unequal lengths of months).
+ The crucial assumption - in line with the literature - is that the daily flow rates are constant over a quarter.
+ This allows us to derive the changes in stocks between the beginning of two quarters,
+ and identify the underlying flow rates from quarterly data.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $e_{t+\tau-1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $u_{t+\tau-1}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $i_{t+\tau-1}$
+\end_inset
+
+ denote shares of employment,
+ unemployment,
+ and the inactive (not in the labor force) 
+\emph on
+in the population
+\emph default
+ at the end of period 
+\begin_inset Formula $t+\tau-1$
+\end_inset
+
+.
+ A 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+ fraction of the formerly employed lose their jobs at the beginning of period 
+\begin_inset Formula $t+\tau$
+\end_inset
+
+ (recall that transition rates are constant within a quarter).
+ Therefore,
+ the population share of 
+\emph on
+potential
+\emph default
+ job searchers at 
+\begin_inset Formula $t+\tau$
+\end_inset
+
+ is 
+\begin_inset Formula $\rho_{t}e_{t+\tau-1}+u_{t+\tau-1}+i_{t+\tau-1}$
+\end_inset
+
+.These include the previously unemployed who stay in the labor force,
+ the previously inactive who return to the labor force,
+ and also those who change jobs within the period.
+ The timing assumption for changing jobs allows us to account for job-to-job transitions,
+ which is likely to be quantitatively important for job churning.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This setup was used,
+ for example,
+ in Campolmi and Gnocchi (2016).
+ They incorporate labor market search and the participation decision into an otherwise standard New Keynesian framework.
+ Their focus on monetary policy and inflation.
+ They do not explore the measurement implications of the labor market setup,
+ which is the main contribution of our paper.
+\end_layout
+
+\end_inset
+
+ Out of this pool,
+ a fraction 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ decides to look for a job.
+ The number of searchers is thus given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s_{t+\tau}=\lambda_{t}\left(\rho_{t}e_{t+\tau-1}+u_{t+\tau-1}+i_{t+\tau-1}\right).\label{eq:threes}
+\end{equation}
+
+\end_inset
+
+It is important to emphasize that we 
+\emph on
+do not assume an equal search participation rate
+\emph default
+ for all types of searchers.
+ Equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:threes"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) defines 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ as an average rate,
+ and it is perfectly compatible with different participation rates for the unemployed,
+ inactive,
+ and job changers.
+ The main point is that while we cannot identify these rates separately,
+ we can calculate an average as we show below.
+\end_layout
+
+\begin_layout Standard
+A fraction 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+ of the searchers (
+\begin_inset Formula $f_{t}s_{t+\tau}$
+\end_inset
+
+ fraction of the total population) finds jobs during the period.
+ Again,
+ 
+\emph on
+this is an average rate
+\emph default
+,
+ and rates for different groups can - and are likely to - differ from each other.
+ We can only calculate the number of new jobs relative to the searching population,
+ which yields 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+ as an average job finding rate.
+ Unsuccessful searchers become 
+\emph on
+unemployed
+\emph default
+:
+ 
+\begin_inset Formula 
+\begin{equation}
+u_{t+\tau}=\left(1-f_{t}\right)s_{t+\tau}.\label{eq:threeu}
+\end{equation}
+
+\end_inset
+
+Potential job searchers who chose not to participate are inactive:
+\begin_inset Formula 
+\begin{equation}
+i_{t+\tau}=\left(1-\lambda_{t}\right)s_{t+\tau}=\left(1-\lambda_{t}\right)\left(\rho_{t}e_{t+\tau-1}+u_{t+\tau-1}+i_{t+\tau-1}\right).\label{eq:threei}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using these definitions,
+ the flow equation of employment is 
+\begin_inset Formula 
+\[
+e_{t+\tau}=\left(1-\rho_{t}\right)e_{t+\tau-1}+f_{t}s_{t+\tau}.
+\]
+
+\end_inset
+
+After substituting for the share of searchers and rearranging,
+ the equation becomes
+\begin_inset Formula 
+\begin{equation}
+e_{t+\tau}=\lambda_{t}f_{t}+\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)e_{t+\tau-1}.\label{eq:threee}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now we use this equation to solve for the employment rate at 
+\begin_inset Formula $t+T$
+\end_inset
+
+,
+ which is the start of the next quarter.
+ To simplify notation,
+ let us define 
+\begin_inset Formula $\eta_{t}=\lambda_{t}f_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi_{t}=\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)$
+\end_inset
+
+.
+ One can think about the first as the job finding rate of a random person in the potential searcher population (that is:
+ taking into account the probability of participation),
+ while the latter gives the share of those with stable employed status between the periods.
+ Then the following derivation links 
+\begin_inset Formula $e_{t+T}$
+\end_inset
+
+ and 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+e_{t+T} & =\eta_{t}+\varphi_{t}e_{t+T-1}\\
+ & =\eta_{t}+\varphi_{t}\left(\eta_{t}+\varphi_{t}e_{t+T-2}\right)\\
+ & \vdots\\
+ & =\eta_{t}\sum_{\nu=0}^{T-1}\varphi_{t}^{\nu}+\varphi_{t}^{T}e_{t}\\
+ & =\frac{\eta_{t}}{1-\varphi_{t}}\left(1-\varphi_{t}^{T}\right)+\varphi_{t}^{T}e_{t}.
+\end{align*}
+
+\end_inset
+
+Substituting back the original rates,
+ we get the following flow equation for quarterly employment:
+\begin_inset Formula 
+\begin{align}
+e_{t+T} & =\frac{\lambda_{t}f_{t}}{1-\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)}\left\{ 1-\left[\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)\right]^{T}\right\} \nonumber \\
+ & +\left[\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)\right]^{T}e_{t}\label{eq:empl}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly,
+ we can also derive how the number of the inactive changes between two quarters.
+ Using eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:threei"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:empl"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) and the identity that 
+\begin_inset Formula $e_{t+\tau}+u_{t+\tau}+i_{t+\tau}=1$
+\end_inset
+
+,
+ we can write this as follows:
+\begin_inset Formula 
+\begin{align}
+i_{t+T} & =\left(1-\lambda_{t}\right)\left(\rho_{t}e_{t+T-1}+1-e_{t+T-1}\right)\nonumber \\
+ & =1-\lambda_{t}-\left(1-\rho_{t}\right)\left(1-\lambda_{t}\right)e_{t+T-1}\nonumber \\
+ & =\left(1-\lambda_{t}\right)\left\{ 1-\left(1-\rho_{t}\right)\left[\frac{\eta_{t}}{1-\varphi_{t}}\left(1-\varphi_{t}^{T-1}\right)+\varphi_{t}^{T-1}e_{t}\right]\right\} ,\label{eq:inact}
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $\eta_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi_{t}$
+\end_inset
+
+ are defined as above.
+\end_layout
+
+\begin_layout Subsection
+Identification
+\end_layout
+
+\begin_layout Standard
+Now we are ready to discuss the identification of the three flow rates,
+ 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+.
+ Information on job tenure includes the share of the newly employed (
+\begin_inset Formula $e_{t}^{s}$
+\end_inset
+
+),
+ whose tenure is less than one quarter.
+ Using the simple fact that those employed in 
+\begin_inset Formula $t+T$
+\end_inset
+
+ are composed of those employed through the period and of the newly employed,,
+ the job separation rate 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+ is directly identified as follows:
+\begin_inset Formula 
+\begin{equation}
+\left(1-\rho_{t}\right)^{T}=\frac{e_{t+T}-e_{t+T}^{s}}{e_{t}}.\label{eq:threerho}
+\end{equation}
+
+\end_inset
+
+The right-hand side is the fraction of those who are employed at the beginning of the current quarter,
+ and remain employed at the same job by the beginning of the next quarter.
+ The left-hand side defines this as the probability that a job survives over the 
+\begin_inset Formula $T$
+\end_inset
+
+ periods within the quarter.
+\end_layout
+
+\begin_layout Standard
+Next,
+ we can use eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:empl"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) to solve for the product 
+\begin_inset Formula $\eta_{t}=\lambda_{t}f_{t}$
+\end_inset
+
+,
+ given quarterly data on employment and the job separation rate 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+ calculated from eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:threerho"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ For any 
+\begin_inset Formula $t$
+\end_inset
+
+,
+ this is a simple non-linear equation that can easily be solved numerically.
+ Note that 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{t}f_{t}$
+\end_inset
+
+ are sufficient to calculate the auxilliary variable 
+\begin_inset Formula $\varphi_{t}=\left(1-\rho_{t}\right)\left(1-\lambda_{t}f_{t}\right)$
+\end_inset
+
+.
+ Using these in eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:inact"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ along with quarterly employment and inactivity data,
+ we can solve for the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+.
+ Finally,
+ the job finding rate is given by 
+\begin_inset Formula $f_{t}=\eta_{t}/\lambda_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The quarterly job finding and job separation probabilities can easily be calculated from the high-frequency rates:
+\begin_inset Formula 
+\begin{align}
+F_{t} & =1-\left(1-f_{t}\right)^{T}\label{eq:F}\\
+R_{t} & =1-\left(1-\rho_{t}\right)^{T}.\label{eq:R}
+\end{align}
+
+\end_inset
+
+The first equation is the probability that someone who is searching for a job at the beginning of the current quarter finds one by the next quarter (assuming that she does not give up search earlier).
+ The second equation defines the survival probability of a job from the current quarter to the next.
+ Note that we do not need to adjust the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+,
+ since it is (by assumption) a constant ratio of stocks within a quarter.
+\end_layout
+
+\begin_layout Standard
+The identified rates and probabilities are sufficient to calibrate a macroeconomic model of 
+\emph on
+employment
+\emph default
+.
+ To understand macroeconomic aggregates (GDP,
+ inflation,
+ etc.),
+ employment and its associated flows are the key labor market variables.
+ As we noted earlier,
+ however,
+ the job finding rate 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+ (along with the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+) is an 
+\emph on
+average
+\emph default
+ among job searchers with different labor market backgrounds.
+ Flows for individual groups (such as the unemployed) are of great interest to social policy,
+ but are less relevant for the 
+\emph on
+macro modeler
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Our method,
+ due to the timing assumption that searchers may find and start work within one period,
+ incorporates job-to-job transitions.
+ This is important since much of the churning in employment is due to these transitions (Mukoyama,
+ 2014),
+ which data on stocks or even gross flows fail to capture.
+\end_layout
+
+\begin_layout Subsection
+The source of new information - some intuition
+\end_layout
+
+\begin_layout Standard
+To see where the new information comes in our procedure with respect the the existing,
+ two-state one,
+ using unemployment duration data,
+ it is worth discussing the intuition behind the identification further.
+ First,
+ let us recall the key equations between periods 
+\begin_inset Formula $t$
+\end_inset
+
+ and 
+\begin_inset Formula $t+1$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+e_{t+1} & =\left(1-\rho_{t}\right)e_{t}+f_{t}\lambda_{t}\left(\rho_{t}e_{t}+1-e_{t}\right)\\
+i_{t+1} & =\left(1-\lambda_{t}\right)\left(\rho_{t}e_{t}+1-e_{t}\right)\\
+\left(1-\rho_{t}\right)e_{t} & =e_{t+1}-e_{t+1}^{s},
+\end{align*}
+
+\end_inset
+
+this latter identifying the job separation rate directly.
+ Using the link between the three labor market states,
+ 
+\begin_inset Formula $i_{t+1}=1-e_{t+1}-u_{t+1}$
+\end_inset
+
+,
+ in the second equation,
+ we can write that
+\begin_inset Formula 
+\[
+\lambda_{t}\left(\rho_{t}e_{t}+1-e_{t}\right)=e_{t+1}+u_{t+1}-\left(1-\rho_{t}\right)e_{t}.
+\]
+
+\end_inset
+
+Substituting this back into the first equation yields
+\begin_inset Formula 
+\[
+e_{t+1}=\left(1-\rho_{t}\right)e_{t}+f_{t}\left[e_{t+1}+u_{t+1}-\left(1-\rho_{t}\right)e_{t}\right].
+\]
+
+\end_inset
+
+Finally,
+ using the third equation for the job separation rate above,
+ we can express the job finding rate as follows:
+\begin_inset Formula 
+\begin{equation}
+f_{t}=\frac{e_{t+1}^{s}}{e_{t+1}^{s}+u_{t+1}}.\label{eq:niceident-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The derivation above assumes that the population 
+\begin_inset Formula $P_{t}=E_{t}+U_{t}+I_{t}$
+\end_inset
+
+ is constant between two periods.
+ Even if this is reasonable both at daily and quarterly frequency,
+ the calculations can be easily extended to include population change.
+ Using capital letters for levels and denoting the size of the population with 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+,
+ one obtains
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{t}=\frac{E_{t+1}^{s}}{E_{t+1}^{s}+U_{t+1}-(P_{t+1}-P_{t})},
+\]
+
+\end_inset
+
+which is the pool of searchers adjusted with population change,
+ almost equivalent to the earlier result.
+\end_layout
+
+\begin_layout Standard
+An important implication of these calculations is that while we worked with a three-state setup,
+ most of the extra information comes directly from the use of short-term employment data.
+ The intuition is that the short-term employed come from all states,
+ including inactivity,
+ thus their number carries more relevant information than that of the short-term unemployed.
+ An added benefit of our approach is the ability to account for job to job transitions,
+ as the number of short-term employed include those coming from another job.
+ Neither of these is true of the approach of Shimer (2005) and the use of data on short-term unemployment.
+\end_layout
+
+\begin_layout Standard
+Although the above did not consider time aggregation directly,
+ equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:threerho"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) does not depend on the assumed frequency if the population is stationary and one can show that the difference is small in any case.
+\end_layout
+
+\begin_layout Section
+Alternative measures
+\end_layout
+
+\begin_layout Standard
+To facilitate comparison of our identified quarterly probabilities,
+ we also calculate alternative measures used in the literature.
+ Below we briefly discuss the usage of gross flow data (whenever available) and unemployment duration data,
+ and how to correct these for time aggregation.
+\end_layout
+
+\begin_layout Subsection
+Data on gross flows
+\end_layout
+
+\begin_layout Standard
+One obvious way to calculate quarterly probabilities is to use labor flow data.
+ Although subject to time aggregation,
+ flow data reveal more details,
+ since one can see all six possible transitions among the three labor market states.
+ Job-to-job flows,
+ however,
+ cannot be calculated from flow data without further breakdown - this is an advantage of our method that relies on job tenure information.
+\end_layout
+
+\begin_layout Standard
+We follow Shimer (2012) to calculate quarterly probabilities from gross flow data,
+ correcting for time aggregation using the high frequency approach of the previous section.
+ Let us define the matrix of daily transition probabilities - assumed constant within a quarter - as follows:
+\begin_inset Formula 
+\begin{align*}
+m_{t} & =\left[\begin{array}{ccc}
+1-m_{t}^{EI}-m_{t}^{EU} & m_{t}^{IE} & m_{t}^{UE}\\
+m_{t}^{EI} & 1-m_{t}^{IE}-m_{t}^{IU} & m_{t}^{UI}\\
+m_{t}^{EU} & m_{t}^{IU} & 1-m_{t}^{UE}-m_{t}^{UI}
+\end{array}\right].
+\end{align*}
+
+\end_inset
+
+Also,
+ let 
+\begin_inset Formula $n_{t+\tau}$
+\end_inset
+
+ be the following matrix:
+\begin_inset Formula 
+\[
+n_{t+\tau}=\left[\begin{array}{ccc}
+n_{t+\tau}^{EE} & n_{t+\tau}^{IE} & n_{t+\tau}^{UE}\\
+n_{t+\tau}^{EI} & n_{t+\tau}^{II} & n_{t+\tau}^{UI}\\
+n_{t+\tau}^{EU} & n_{t+\tau}^{IU} & n_{t+\tau}^{UU}
+\end{array}\right].
+\]
+
+\end_inset
+
+A typical element of 
+\begin_inset Formula $n_{t+\tau}$
+\end_inset
+
+ is people who started period 
+\begin_inset Formula $t$
+\end_inset
+
+ in labor market position 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ and are in labor market position 
+\begin_inset Formula $j$
+\end_inset
+
+ at 
+\begin_inset Formula $t+\tau$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $i,j=E,I,U$
+\end_inset
+
+.
+ It is clear that within a quarter,
+ the evolution of 
+\begin_inset Formula $n_{t+\tau}$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\[
+n_{t+\tau+1}=m_{t}n_{t+\tau}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To correct for time aggregation,
+ one needs to calculate the transition matrix 
+\begin_inset Formula $m_{t}$
+\end_inset
+
+ from the quarterly flows.
+ Let 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ denote the matrix of observed flows,
+ where the elements are normalized into shares using the sum of possible flows from a given state.
+ Then given regularity conditions that hold in our data,
+ 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ can be diagonalized.
+\begin_inset Formula 
+\[
+M_{t}=p_{t}\mu_{t}p_{t}^{-1},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $p_{t}$
+\end_inset
+
+ is a matrix with the eigenvectors of 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ in its columns,
+ and 
+\begin_inset Formula $\mu_{t}$
+\end_inset
+
+ is a diagonal matrix with the eigenvalues of 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ along the diagonal.
+ Then the daily transition matrix is simply given by
+\begin_inset Formula 
+\[
+m_{t}=p_{t}\mu_{t}^{\frac{1}{T}}p_{t}^{-1}.
+\]
+
+\end_inset
+
+With the daily transition matrix we calculate the adjusted quarterly probabilities as follows:
+\begin_inset Formula 
+\begin{align*}
+\rho_{t}^{gf} & =1-\left(m_{t}^{EE}\right)^{T}\\
+f_{t}^{gf} & =1-\left[1-\frac{m_{t}^{UE}u_{t}+m_{t}^{IE}i_{t}}{\left(m_{t}^{UE}+m_{t}^{UU}\right)u_{t}+\left(m_{t}^{IE}+m_{t}^{IU}\right)i_{t}}\right]^{T}\\
+\lambda_{t}^{gf} & =\frac{\left(m_{t}^{UE}+m_{t}^{UU}\right)u_{t}+\left(m_{t}^{IE}+m_{t}^{IU}\right)i_{t}}{u_{t}+i_{t}}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Two states with unemployment duration data
+\end_layout
+
+\begin_layout Standard
+The most widely used method to calculate transition probabilities from stock data was proposed in Shimer (2005).
+ This method uses data on unemployment duration to calculate unemployment inflow and outflow probabilities,
+ correcting for time aggregation.
+ Since the procedure is described in detail in the original article,
+ we keep the exposition brief.
+ The only difference is that instead of continuous time,
+ we derive the equations using our previous high frequency assumption.
+\end_layout
+
+\begin_layout Standard
+The quarterly unemployment outflow probability (interpreted as the job finding rate) is calculated as follows:
+\begin_inset Formula 
+\begin{align*}
+F_{t}^{ts} & =1-\frac{u_{t+1}-u_{t+1}^{s}}{u_{t}},
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{t}^{s}$
+\end_inset
+
+ is the number of those who have been unemployed for less than a quarter at the beginning of the next quarter.
+ The daily unemployment inflow rate 
+\begin_inset Formula $\rho_{t}^{ts}$
+\end_inset
+
+ (interpreted as the job separation rate) is then calculated from the following equation:
+\begin_inset Formula 
+\[
+u_{t+T}=\frac{\rho_{t}^{ts}}{\rho_{t}^{ts}+f_{t}^{ts}}\left[1-\left(1-\rho_{t}^{ts}-f_{t}^{ts}\right)^{T}\right]+\left(1-\rho_{t}^{ts}-f_{t}^{ts}\right)^{T}u_{t},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $f_{t}^{ts}=1-\left(1-F_{t}^{ts}\right)^{\frac{1}{T}}$
+\end_inset
+
+.
+ Finally,
+ the quarterly job separation rate is given by
+\begin_inset Formula 
+\[
+R_{t}^{ts}=1-\left(1-\rho_{t}^{ts}\right)^{T}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data,
+ estimation and results
+\end_layout
+
+\begin_layout Standard
+Data availability is constrained primarily by information on job tenure.
+ For the EU,
+ Eurostat reports quarterly figures since 2008Q1.
+ Since 2010Q1,
+ Eurostat also started publishing data on gross flows,
+ which allows us to compare our method with flow rates calculated from gross flows directly.
+ We present results for the United Kingdom as an example.
+\end_layout
+
+\begin_layout Standard
+Long time series for job tenure and stocks are available for Canada,
+ starting in 1976.
+ This allows us to compare job finding and separation rates between our three-state method,
+ and the original two-state Shimer method.
+ Unfortunately,
+ there are no public gross flow data available for Canada.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement tbph
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="1">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/f_uk.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the job finding rate 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+,
+ the unemployment outflow rate based on unemployment duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+data,
+ and the unemployment-employment flow rate from gross flows.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/rho_uk.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the job separation rate 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+,
+ the unemployment inflow rate based on unemployment duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+data,
+ and the employment outflow rate from gross flows.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/lambda_uk.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+,
+ and the inactivity outflow rate from gross flows.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Note the different scales for the two measures.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results for the UK
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:uk"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:uk"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ plots the UK results.
+ For comparison,
+ we present results from the two-state method and from using gross flows directly.
+ For the latter,
+ we use the unemployment-employment flow rate (first panel),
+ the flow rate from employment to unemployment or inactivity (second panel),
+ and the flow rate from inactivity into either employment or unemployment (third panel).
+ We remove seasonality from all the calculated rates.
+\end_layout
+
+\begin_layout Standard
+The two-state and three-state methods yield notably similar outcomes for the UK,
+ especially when considering the overall business cycle properties of the job finding and separation rates and the different nature of the data used.
+ Note however the almost exact match of the measures in the crisis period and the divergence before and after that.
+ A reason for this is having information on job to job flows,
+ one of the advantages of using employment tenure data.
+ Indeed,
+ as the theoretical model of Krause and Lubik (2006) confirms everyday observation,
+ matches to better jobs and thus job to job transitions are much more likely in upswings and in downturns.
+ Our approach is able to capture that,
+ while the commonly used alternative cannot.
+\end_layout
+
+\begin_layout Standard
+Comparing the three-state method with the gross flows,
+ the level differences are much bigger.
+ The average job finding and separation rates are bigger then the unemployment-employment flow rate or the employment outflow rate.
+ The main reason behind this is likely to be job-to-job transitions,
+ which are picked up by our method,
+ but not by the gross flow data.
+ The match between the two measures of participation,
+ is of no surprise:
+ job to job transitions play no part there.
+ Although the levels are different (note the different scales on the figure),
+ the dynamics are virtually identical.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement tbph
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="1">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/f_ca.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the job finding rate 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+ and the unemployment outflow rate based on unemployment duration data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/rho_ca.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the job separation rate 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+,
+ the unemployment inflow rate based on unemployment duration data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../Library/CloudStorage/Dropbox/FlowsEU/Paper/lambda_ca.eps
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+The panel plots the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results for Canada
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ca"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ca"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents the Canadian results.
+ The dynamics between the two and three state methods are again similar.
+ The job finding rate remains broadly stable after 1996,
+ while the unemployment outflow rate increases sharply.
+ The opposite is true when we compare the job separation rate and the unemployment inflow rate.
+ The former drops significantly after 1996,
+ while the latter remains broadly stable.
+ The discrepancies might be explained by the behavior of the search participation rate (
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+),
+ which declines significantly during the mid-1990s,
+ but which is not taken into account by the two-state method.
+\end_layout
+
+\begin_layout Section
+Discussion:
+ group-level identification
+\end_layout
+
+\begin_layout Standard
+As we stressed above,
+ the identified job finding rate is an average over the various groups that make up job searchers.
+ These groups are the formerly unemployed,
+ the formerly inactive,
+ and those changing jobs.
+ There is no reason why the job finding probabilities should be the same for these three sub-groups.
+ Unfortunately stock data with job duration information is not sufficient to identify group-level transition rates.
+ The question is whether it is possible to impose additional restrictions on the flow rates to identify the separate probabilities.
+\end_layout
+
+\begin_layout Standard
+Note that there is one additional time series that we have not used so far.
+ In particular,
+ Shimer ( 2005) uses unemployment duration data (see below) to calculate unemployment outflow and inflow rates.
+ Although he interprets the outflow rate as a job finding probability,
+ this is not accurate,
+ since some of those who leave unemployment become inactive.
+ Our question in this section is whether adding unemployment duration to our list of observables is useful to calculate separate job finding rates for the three groups of searchers,
+ and if not,
+ what additional restrictions might be needed.
+\end_layout
+
+\begin_layout Standard
+The answer to the first question is no.
+ The additional information allows us to calculate the unemployment outflow rate,
+ as shown by Shimer (2005).
+ Without knowing how many of the unemployed remain active,
+ we cannot separately calculate the job finding rate of the unemployed.
+ Unless we assume that the search participation rate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ is the same for each subgroup,
+ we cannot go further.
+ This assumption is unlikely to hold in the data,
+ since it is likely that the search participation rate of the currently unemployed (
+\begin_inset Formula $u_{t}$
+\end_inset
+
+) is higher than the search participation rate of the currently inactive (
+\begin_inset Formula $i_{t}$
+\end_inset
+
+),
+ i.e.
+ 
+\begin_inset Formula $\lambda_{t}^{u}>\lambda_{t}^{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To study the second question,
+ let us impose - contrary to the above - a set of identification restrictions to eliminate heterogeneity across different groups.
+ In particular,
+ let us assume that 
+\begin_inset Formula $f_{t}^{u}=f_{t}^{e}=f_{t}^{i}\left(=f_{t}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{t}^{u}=\lambda_{t}^{e}$
+\end_inset
+
+
+\begin_inset Formula $\left(=\lambda_{t}^{eu}\right)$
+\end_inset
+
+.
+ The assumptions mean that the job finding rate is independent of previous labor market status,
+ and the search participation rate is the same between the formally employed and the formally unemployed.
+ We do allow for lower search intensity among the inactive relative to the other two groups of potential searchers.
+\end_layout
+
+\begin_layout Standard
+It is easy to verify that under these assumptions all flows are identified.
+ Compared to the previous case we need to compute one additional indicator,
+ which is the probability that an inactive becomes an active searcher (
+\begin_inset Formula $\lambda_{t}^{i}$
+\end_inset
+
+).
+ Let us write down the flow equation of unemployment,
+ using the identification restrictions:
+\begin_inset Formula 
+\begin{equation}
+u_{t+1}-u_{t}=\rho_{t}\lambda_{t}^{eu}\left(1-f_{t}\right)e_{t}+\lambda_{t}^{i}\left(1-f_{t}\right)i_{t}-\underbrace{\left[1-\lambda_{t}^{eu}\left(1-f_{t}\right)\right]}_{\phi_{t}}u_{t}.\label{eq:ident-1}
+\end{equation}
+
+\end_inset
+
+Using data on unemployment duration we can calculate the outflow rate 
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+.
+ Substituting this into equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident-1"
+nolink "false"
+
+\end_inset
+
+) we can also compute the unemployment inflow rate.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In this section we ignore time aggregation and focus only on identification at the baseline frequency.
+ Time aggregation would complicate the calculations,
+ but would not change the identification results.
+\end_layout
+
+\end_inset
+
+ Given our previous estimates for the job finding rate 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+,
+ the job destruction rate 
+\begin_inset Formula $\rho_{t}$
+\end_inset
+
+,
+ and the average search intensity 
+\begin_inset Formula $\lambda_{t}=\left(\rho_{t}e_{t-1}+u_{t-1}\right)\lambda_{t}^{eu}+i_{t-1}\lambda_{t}^{i}$
+\end_inset
+
+,
+ we can recover the two separate search intensities,
+ 
+\begin_inset Formula $\lambda_{t}^{eu}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{t}^{i}$
+\end_inset
+
+.
+ This means that we would have all the necessary information to reproduce the gross flows among all three states.
+\end_layout
+
+\begin_layout Standard
+Unfortunately,
+ this identification strategy does not work in practice.
+ The simple reason for this is that the unemployment outflow rate 
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+ tends to be smaller than the average job finding rate 
+\begin_inset Formula $f_{t}$
+\end_inset
+
+ (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:uk"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This is inconsistent with eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident-1"
+nolink "false"
+
+\end_inset
+
+),
+ which requires that 
+\begin_inset Formula $\phi_{t}>f_{t}$
+\end_inset
+
+.
+ Our strong identification restrictions cannot be maintained:
+ the job finding rate of the unemployed is apparently lower than average.
+ Reasons for this can be the better labor market position of the newly unemployed and job changers,
+ or that people returning from inactivity might find it easier to get a job,
+ or probably a combination of both.
+\end_layout
+
+\begin_layout Standard
+If we relax the 
+\begin_inset Formula $f_{t}^{e}=f_{t}^{u}=f_{t}^{i}$
+\end_inset
+
+ assumption,
+ full identification is no longer possible,
+ since we would need to calculate at least five rates from four time series.
+ Either we find new data,
+ or we introduce some other restrictions.
+ There are no obvious choices in either direction,
+ hence we do not see full identification possible from aggregate data.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+We presented a method to estimate key labor market transition rates using publicly available data on employment,
+ unemployment,
+ inactivity and job tenure.
+ The method is easy to implement and improves measurement compared to methods that ignore movements into and out of inactivity.
+ Data are more broadly available than direct measures of labor market flows,
+ and stock-flow consistency is not an issue.
+ Finally,
+ the method takes into account job-to-job transitions that are important in understanding employment dynamics,
+ in particular over the business-cycle.
+\end_layout
+
+\begin_layout Standard
+We highlight two topics for further research.
+ First,
+ longer job tenure time series are available at the annual frequency.
+ These can be utilized combining the current methodology with the techniques developed in Hobijn and Sahin (2009).
+ Second,
+ a more detailed comparison of our results with gross flows may lead to improvements in the raking procedure used to ensure stock-flow consistency in the latter.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+literal "true"
+
+\end_inset
+
+Campolmi,
+ A.
+ and S.
+ Gnocchi (2014).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Labor Market Participation,
+ Unemployment and Monetary Policy.” Bank of Canada Working Paper,
+ 2014/9.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-3"
+literal "true"
+
+\end_inset
+
+Casado,
+ J.,
+ C.
+ Fernandez and J.
+ Jimeno (2015).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Worker flows in the European Union during the Great Recession.” Working Paper Series 1862,
+ European Central Bank.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-6"
+literal "true"
+
+\end_inset
+
+Elsby,
+ M.,
+ B.
+ Hobijn and A.
+ Şahin (2015).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+On the importance of the participation margin for labor market fluctuations.” 
+\emph on
+Journal of Monetary Economics
+\emph default
+,
+ 
+\series bold
+72
+\series default
+:
+ 64-82.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-7"
+literal "true"
+
+\end_inset
+
+Frazis,
+ H.,
+ E.
+ Robison,
+ T.
+ Evans and M.
+ Duff (2005).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Estimating gross flows consistent with stocks in the CPS.” Monthly Labor Review,
+ pp.
+ 3-9.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-8"
+literal "true"
+
+\end_inset
+
+Hobijn,
+ B.
+ and A.
+ Sahin (2009).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Job-finding and separation rates in the OECD.” 
+\emph on
+Economics Letters
+\emph default
+,
+ 
+\series bold
+104
+\series default
+:
+ 107-111.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Karahan,
+ F.,
+ R.
+ Michaels,
+ B.
+ Pugsley,
+ A.
+ Şahin,
+ and R.
+ Schuh (2017).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Do Job-to-Job Transitions Drive Wage Fluctuations over the Business Cycle?
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph on
+American Economic Review
+\emph default
+,
+ 
+\series bold
+107
+\series default
+:
+ 353-57.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "12"
+key "key-1"
+literal "false"
+
+\end_inset
+
+Krause,
+ M.and T.
+ Lubik.
+ (2006).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The Cyclical Upgrading of Labor and On-the-Job Search”.
+ 
+\emph on
+Labour Economics
+\emph default
+,
+ 
+\series bold
+13
+\series default
+:
+ 459–477.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-9"
+literal "true"
+
+\end_inset
+
+Mortensen,
+ D.
+ (1970).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Job Search,
+ the Duration of Unemployment,
+ and the Phillips Curve.” 
+\emph on
+American Economic Review
+\emph default
+,
+ 
+\series bold
+60
+\series default
+:
+ 847-62.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-10"
+literal "true"
+
+\end_inset
+
+Mortensen,
+ D.
+ and C.
+ Pissarides (1994).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Job Creation and Job Destruction in the Theory of Unemployment.” 
+\emph on
+Review of Economic Studies
+\emph default
+,
+ 
+\series bold
+61
+\series default
+:
+ 397-415.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Mukoyama,
+ T.
+ (2014).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The cyclicality of job-to-job transitions and its implications for aggregate productivity.
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph on
+Journal of Economic Dynamics and Control
+\emph default
+,
+ 
+\series bold
+39
+\series default
+:
+ 1-17.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-15"
+literal "true"
+
+\end_inset
+
+Pissarides,
+ C.
+ (1985).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Short-run Equilibrium Dynamics of Unemployment Vacancies,
+ and Real Wages.” 
+\emph on
+American Economic Review
+\emph default
+,
+ 
+\series bold
+75
+\series default
+:
+ 676-90.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-17"
+literal "true"
+
+\end_inset
+
+Pissarides,
+ C.
+ (2000).
+ 
+\emph on
+Equilibrium Unemployment Theory,
+ 2nd Edition
+\emph default
+.
+ The MIT Press.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-18"
+literal "true"
+
+\end_inset
+
+Shimer,
+ R.
+ (2005).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The Cyclical Behavior of Equilibrium Unemployment and Vacancies.” 
+\emph on
+American Economic Review
+\emph default
+,
+ 
+\series bold
+95
+\series default
+:
+ 25-49.
+\end_layout
+
+\end_body
+\end_document
