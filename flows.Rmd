@@ -34,7 +34,7 @@ Labor market stocks, seasonally adjusted. Since inactivity is not seasonally adj
 ```{r warning=FALSE, message=FALSE}
 
 stock <- get_eurostat("lfsi_emp_q", filters = list(geo=eu,unit="THS_PER",sex="T",age="Y15-74",
-                                                   s_adj="SA"))
+                                                   s_adj="NSA"))
 stock <- stock %>% pivot_wider(id_cols=c(geo,time),names_from=indic_em,values_from = values)
 stock$time <- as.yearqtr(stock$time)
 stock <- stock %>% mutate(une = ACT-EMP_LFS) %>% select(geo,time,une,emp=EMP_LFS)
@@ -54,7 +54,7 @@ Recent job leavers (s.a.). Merge with stocks.
 ```{r warning=FALSE, message=FALSE}
 
 rjl <- get_eurostat("lfsi_lea_q",
-                    filters = list(geo=eu,s_adj="SA",age="Y15-74",sex="T",unit="THS"))
+                    filters = list(geo=eu,s_adj="NSA",age="Y15-74",sex="T",unit="THS"))
 rjl <- rjl %>% select(geo,time,rjl=values)
 rjl$time <- as.yearqtr(rjl$time)
 df <- left_join(stock,rjl)
@@ -65,7 +65,7 @@ Recent job starters (s.a.). Merge with stocks.
 ```{r warning=FALSE, message=FALSE}
 
 rjs <- get_eurostat("lfsi_sta_q",
-                    filters = list(geo=eu,age="Y15-74",sex="T",s_adj="SA",unit="THS"))
+                    filters = list(geo=eu,age="Y15-74",sex="T",s_adj="NSA",unit="THS"))
 rjs <- rjs %>% select(geo,time,rjs=values)
 rjs$time <- as.yearqtr(rjs$time)
 df <- left_join(df,rjs)
@@ -76,7 +76,7 @@ Labor market transitions
 ```{r warning=FALSE, message=FALSE}
 
 tran <- get_eurostat("lfsi_long_q",
-                     filters = list(unit = "THS_PER", s_adj = "SA", geo = eu,
+                     filters = list(unit = "THS_PER", s_adj = "NSA", geo = eu,
                                     sex = "T"))
 tran$time <- as.yearqtr(tran$time)
 tran <- tran %>% pivot_wider(id_cols=c(geo,time),names_from="indic_em",values_from=values)
@@ -103,6 +103,21 @@ df <- df %>% left_join(dur)
 df <- df %>% left_join(ten)
 ```
 
+## Various checks
+
+Check that transitions and stocks data are consistent
+
+```{r warning=FALSE, message=FALSE}
+
+tran <- tran %>% mutate(E = E_E+U_E+I_E, lagE = E_E+E_U+E_I,
+                        U = U_U+E_U+I_U, lagU = U_U+U_E+U_I,
+                        I = I_I+E_I+U_I, lagI = I_I+I_E+I_U)
+stock <- tran %>% select(geo,time,E,U,I,lagE,lagU,lagI) %>% right_join(stock)
+stock %>% filter(geo=="HU") %>% select(time,E,emp) %>%
+  pivot_longer(cols = -time,names_to = "var", values_to = "val") %>%
+  ggplot() + geom_line(aes(x=time,y=val,color=var))
+```
+
 Recent job starters against short-duration employment. These are the same series!
 
 ```{r warning=FALSE, message=FALSE}
@@ -115,10 +130,10 @@ Recent job leavers are those who lost their jobs and did not immediately started
 
 Plot recent job leavers against those who transitioned from employment into unemployment or inactivity.
 
-```{r warning=FALSE, message=FALSE}
+```{r message=FALSE, warning=FALSE}
 
 ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=rjl),color=col1) +
-  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=E_U),color=col2)
+  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=E_I),color=col2)
 ```
 
 ## Calculations
@@ -138,12 +153,6 @@ Now compute the same measures using transitions data.
 
 ```{r warning=FALSE, message=FALSE}
 
-
-
-ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=u_out),color=col1) +
-  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=u_out_tr),color=col2)
-
-ggplot() + geom_line(data=df[df$geo=="HU",],aes(x=time,y=e_out),color=col1) +
-  geom_line(data=tran[tran$geo=="HU",],aes(x=time,y=e_out_tr),color=col2)
-
+ggplot() + geom_line(data=df[df$geo=="FR",],aes(x=time,y=u_out),color=col1) +
+  geom_line(data=tran[tran$geo=="FR",],aes(x=time,y=u_out_tr),color=col2)
 ```
