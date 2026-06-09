@@ -59,6 +59,8 @@ ten$time <- as.yearqtr(ten$time)
 
 df <- df %>% left_join(dur)
 df <- df %>% left_join(ten)
+
+rm(dur,ten)
 ```
 
 #### Transitions
@@ -70,6 +72,16 @@ tran <- get_eurostat("lfsi_long_q",
                                     sex = "T"))
 tran$time <- as.yearqtr(tran$time)
 tran <- tran %>% pivot_wider(id_cols=c(geo,time),names_from="indic_em",values_from=values)
+```
+
+#### Temporary workers
+
+```{r warning=FALSE, message=FALSE}
+
+tem <- get_eurostat("lfsq_etgadc", filters = list(geo=eu,age="Y15-74",sex="T"))
+tem <- tem %>% pivot_wider(id_cols=c(geo,time),names_from=duration,values_from=values)
+tem$time <- as.yearqtr(tem$time)
+tem <- tem %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_GE36`))
 ```
 
 ## Annual data
@@ -85,3 +97,25 @@ dfa <- dfa %>% pivot_wider(id_cols=c(geo,time),names_from=wstatus,values_from=va
 ```
 
 #### Job tenure
+
+```{r warning=FALSE, message=FALSE}
+
+tena <- get_eurostat("lfsa_egad", time_format = "num",
+                    filters = list(geo=eu,duration="M0-11",unit="THS_PER",
+                                                age="Y15-74",sex="T"))
+tena <- tena %>% select(geo,time,emps=values)
+```
+
+#### Temporary workers
+
+```{r warning=FALSE, message=FALSE}
+
+tema <- get_eurostat("lfsa_etgadc",  time_format = "num",
+                     filters = list(geo=eu,age="Y15-74",sex="T"))
+tema <- tema %>% pivot_wider(id_cols=c(geo,time),names_from=duration,values_from=values)
+tema <- tema %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_GE36`))
+```
+
+## Separation rates
+
+Calculate quarterly and annual separation rates, adding a correction for temporary workers.
