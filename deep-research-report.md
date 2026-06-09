@@ -27,7 +27,7 @@ The harmonized LFS framework also uses common classifications such as sex, age, 
 The table below synthesizes the public Eurostat aggregate inputs that matter most for this project. The dataset codes shown are the ones explicitly used in your draft and should be treated as the historical reference point for a current pull; Eurostat dataset aliases do occasionally shift, so they should be checked in the current Data Browser before coding the pipeline. fileciteturn0file0
 
 | Concept | Public Eurostat source used or implied in your draft | What to extract | Why it matters |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Employment stock $E_t$ | Quarterly LFS employment aggregates; in the draft, employment detail comes from the same table family used for tenure | Total employed count/share | Base stock equation |
 | Unemployment stock $U_t$ and short-duration unemployment $U_t^s$ | `lfsq_ugad` in the draft | Total unemployed; combine the shortest unemployment-duration bins into “under 3 months” | Identifies unemployment inflow/outflow moments in two-state and three-state systems |
 | Inactivity stock $I_t$ | `lfsq_igaww` in the draft | Total inactive count/share, and optionally willingness-to-work categories | Needed once inactivity is treated as a distinct state |
@@ -125,7 +125,7 @@ With only the three stocks $e_t,u_t,i_t$, there are only two independent account
 The table below is a synthesis of the method families most relevant to your project.
 
 | Method | Extra public moments required | What it identifies well | Main assumptions | Main strengths | Main weaknesses |
-|------------|------------|------------|------------|------------|------------|
+|----|----|----|----|----|----|
 | Stock-only steady-state Markov inversion | Only $E,U,I$ shares | Almost nothing beyond low-dimensional calibrations | Quasi-steady-state, sparse structure, or strong restrictions on $P_t$ | Very simple | Heavily underidentified in three states |
 | Two-state Shimer method | Unemployment stock + short-duration unemployment | $E\to U$ and $U\to E$ in a closed $E/U$ system | No inactivity margin, same-quarter timing, short-duration bin correctly measured | Transparent and easy to replicate | Misses inactivity and job-to-job contamination |
 | Three-state partial identification from your draft | $E,U,I$ stocks + short-duration unemployment + short job tenure | Employment inflow $\lambda_t f_t$, job destruction $\rho_t$, search intensity $\lambda_t$, implied finding $f_t$ | Public short-tenure jobs proxy new employment; timing rules; common search probability among nonemployed | Best public-data three-state baseline | Still not a full $3\times 3$ matrix |
@@ -245,7 +245,7 @@ A serious public-data paper on labor flows lives or dies on diagnostics. The pub
 ### Diagnostics that should be standard
 
 | Diagnostic | How to do it | Why it matters |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Stock reconciliation | Check $\hat s_t = s_{t-1}\hat P_t$ against observed $s_t$ | Verifies accounting consistency |
 | Short-spell replication | Compare model-implied $\hat u_t^s$ and $\hat e_t^s$ to observed short-duration/short-tenure shares | Core identification moments must fit |
 | Probability bounds | Enforce $0\le p_{ij,t}\le 1$ and row sums equal one | Prevents impossible transitions |
