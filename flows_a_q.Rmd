@@ -118,4 +118,20 @@ tema <- tema %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_G
 
 ## Separation rates
 
-Calculate quarterly and annual separation rates, adding a correction for temporary workers.
+Calculate quarterly and annual separation rates, adding a correction for temporary workers. Assume that:
+
+-   there are heterogenous workers according to employment contract length $\tau$;
+
+-   temporary contracts dissolve after they run out, permanent contracts separate with a probability $\rho$;
+
+-   all workers with contracts less than one period (quarter) will be separated;
+
+-   workers with contract length are distributed uniformly across the remaining time.
+
+Separations within a period:
+
+$$
+n_{t}-\left(n_{t+1}-n^{s}_{t+1}\right)=n^{1}_{t}+\sum^{T}_{\tau=2}\frac{1}{T}n^{\tau}_{t}+\rho_{t}n^{\infty}_{t}.
+$$
+
+#### Quarterly
