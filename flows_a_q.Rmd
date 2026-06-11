@@ -13,6 +13,8 @@ Start with some basic housekeeping: load packages, define colors.
 library(tidyverse)
 library(eurostat)
 library(zoo)
+library(fixest)
+library(modelsummary)
 
 # Define my favorite color scheme
 col1 = "#013C58"
@@ -74,16 +76,6 @@ tran$time <- as.yearqtr(tran$time)
 tran <- tran %>% pivot_wider(id_cols=c(geo,time),names_from="indic_em",values_from=values)
 ```
 
-#### Temporary workers
-
-```{r warning=FALSE, message=FALSE}
-
-tem <- get_eurostat("lfsq_etgadc", filters = list(geo=eu,age="Y15-74",sex="T"))
-tem <- tem %>% pivot_wider(id_cols=c(geo,time),names_from=duration,values_from=values)
-tem$time <- as.yearqtr(tem$time)
-tem <- tem %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_GE36`))
-```
-
 ## Annual data
 
 #### Stocks
@@ -104,6 +96,9 @@ tena <- get_eurostat("lfsa_egad", time_format = "num",
                     filters = list(geo=eu,duration="M0-11",unit="THS_PER",
                                                 age="Y15-74",sex="T"))
 tena <- tena %>% select(geo,time,emps=values)
+
+dfa <- dfa %>% left_join(tena)
+rm(tena)
 ```
 
 #### Temporary workers
@@ -120,18 +115,48 @@ tema <- tema %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_G
 
 Calculate quarterly and annual separation rates, adding a correction for temporary workers. Assume that:
 
--   there are heterogenous workers according to employment contract length $\tau$;
+- there are heterogeneous workers according to employment contract length $\tau$;
 
--   temporary contracts dissolve after they run out, permanent contracts separate with a probability $\rho$;
+- temporary contracts dissolve after they run out, permanent contracts separate with a probability $\rho$;
 
--   all workers with contracts less than one period (quarter) will be separated;
+- all workers with contracts less than one period (quarter) will be separated;
 
--   workers with contract length are distributed uniformly across the remaining time.
+- workers with contract length are distributed uniformly across the remaining time.
 
 Separations within a period:
 
-$$
-n_{t}-\left(n_{t+1}-n^{s}_{t+1}\right)=n^{1}_{t}+\sum^{T}_{\tau=2}\frac{1}{T}n^{\tau}_{t}+\rho_{t}n^{\infty}_{t}.
-$$
+$$n_{t}-\left(n_{t+1}-n^{s}_{t+1}\right)=\sum^{T}_{\tau=1}\frac{1}{\tau}n^{\tau}_{t}+\rho_{t}n^{\infty}_{t}.$$
 
 #### Quarterly
+
+```{r warning=FALSE, message=FALSE}
+
+tem <- get_eurostat("lfsq_etgadc", filters = list(geo=eu,age="Y15-74",sex="T"))
+tem <- tem %>% pivot_wider(id_cols=c(geo,time),names_from=duration,values_from=values)
+tem$time <- as.yearqtr(tem$time)
+tem <- tem %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_GE36`))
+
+lengths <- setdiff(names(tem), c("geo", "time", "TOTAL"))
+
+tem <- tem %>% mutate(summ = rowSums(across(all_of(lengths)),na.rm = TRUE)) %>%
+  mutate(gap=100*abs((TOTAL-summ)/TOTAL)) %>% mutate(gap=sprintf("%.4f", gap)) %>%
+  mutate(gap=as.numeric(gap)) %>%
+  mutate(across(all_of(lengths), ~ if_else(gap < 5 & is.na(.), 0, .))) %>%
+  mutate(empts=`M_LT1`+`M1-3`+2/3*`M4-6`+1/3*`M7-12`+1/5*`M13-18`+1/7*`M19-24`+
+           1/10*`M25-36`+1/16*`M_GT36`)
+
+df <- tem %>% right_join(df)
+
+df <- df %>% mutate(S=1-(lead(EMP)-lead(emps))/EMP)
+```
+
+Regress the separation rate on various measures of temporary work:
+
+```{r warning=FALSE, message=FALSE}
+
+res <- lm(S ~ log(empts/EMP)+log(TOTAL/EMP), data = df)
+modelsummary(res, stars = TRUE, gof_omit = "IC|Adj|F|RMSE|Log")
+
+res2 <- feols(S ~ log(empts/EMP)+log(TOTAL/EMP) | geo+time, data = df)
+modelsummary(res2, stars = TRUE, gof_omit = "IC|Adj|F|RMSE|Log")
+```
