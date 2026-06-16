@@ -142,7 +142,8 @@ tem <- tem %>% mutate(summ = rowSums(across(all_of(lengths)),na.rm = TRUE)) %>%
   mutate(gap=100*abs((TOTAL-summ)/TOTAL)) %>% mutate(gap=sprintf("%.4f", gap)) %>%
   mutate(gap=as.numeric(gap)) %>%
   mutate(across(all_of(lengths), ~ if_else(gap < 5 & is.na(.), 0, .))) %>%
-  mutate(empts=`M_LT1`+`M1-3`+2/3*`M4-6`+1/3*`M7-12`+1/5*`M13-18`+1/7*`M19-24`+
+  mutate(M03 = `M_LT1`+`M1-3`) %>% select(-c(`M_LT1`,`M1-3`)) %>%
+  mutate(empts=M03+2/3*`M4-6`+1/3*`M7-12`+1/5*`M13-18`+1/7*`M19-24`+
            1/10*`M25-36`+1/16*`M_GT36`)
 
 df <- tem %>% right_join(df)
@@ -154,9 +155,19 @@ Regress the separation rate on various measures of temporary work:
 
 ```{r warning=FALSE, message=FALSE}
 
-res <- lm(S ~ log(empts/EMP)+log(TOTAL/EMP), data = df)
-modelsummary(res, stars = TRUE, gof_omit = "IC|Adj|F|RMSE|Log")
+models <- list("(1)" = lm(S ~ I(TOTAL/EMP), data = df),
+               "(2)" = lm(S ~ I(M03/EMP), data = df),
+               "(3)" = lm(S ~ I(M03/EMP)+I(TOTAL/EMP), data = df),
+               "(4)" = lm(S ~ I(TOTAL/EMP)+factor(geo), data = df),
+               "(5)" = lm(S ~ I(M03/EMP)+factor(geo), data = df),
+               "(6)" = lm(S ~ I(M03/EMP)+I(TOTAL/EMP)+factor(geo), data = df))
+rows <- tribble(
+  ~term,                   ~`(1)`, ~`(2)`, ~`(3)`, ~`(4)`, ~`(5)`, ~`(6)`,
+  "Country fixed effects", "No",   "No",   "No",  "Yes",  "Yes",  "Yes")
+attr(rows, "position") <- c(5,6)
 
-res2 <- feols(S ~ log(empts/EMP)+log(TOTAL/EMP) | geo+time, data = df)
-modelsummary(res2, stars = TRUE, gof_omit = "IC|Adj|F|RMSE|Log")
+modelsummary(models, stars = TRUE, coef_map = c("I(TOTAL/EMP)" = "Total temp.",
+                                                "I(M03/EMP)" = "Short duration temp."),
+             add_rows = rows, gof_omit = "IC|Adj|F|RMSE|Log")
+
 ```
