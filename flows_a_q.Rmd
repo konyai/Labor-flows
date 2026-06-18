@@ -155,19 +155,43 @@ Regress the separation rate on various measures of temporary work:
 
 ```{r warning=FALSE, message=FALSE}
 
-models <- list("(1)" = lm(S ~ I(TOTAL/EMP), data = df),
-               "(2)" = lm(S ~ I(M03/EMP), data = df),
-               "(3)" = lm(S ~ I(M03/EMP)+I(TOTAL/EMP), data = df),
-               "(4)" = lm(S ~ I(TOTAL/EMP)+factor(geo), data = df),
-               "(5)" = lm(S ~ I(M03/EMP)+factor(geo), data = df),
-               "(6)" = lm(S ~ I(M03/EMP)+I(TOTAL/EMP)+factor(geo), data = df))
+library(fixest)
+library(modelsummary)
+library(tibble)
+
+models <- list("(1)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP), data = df),
+               "(2)" = feols(log(S/(1-S)) ~ I(M03/EMP), data = df),
+               "(3)" = feols(log(S/(1-S)) ~ I(M03/EMP) + I(TOTAL/EMP), data = df),
+               "(4)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP) | geo, data = df),
+               "(5)" = feols(log(S/(1-S)) ~ I(M03/EMP) | geo, data = df),
+               "(6)" = feols(log(S/(1-S)) ~ I(M03/EMP) + I(TOTAL/EMP) | geo, data = df))
+
 rows <- tribble(
   ~term,                   ~`(1)`, ~`(2)`, ~`(3)`, ~`(4)`, ~`(5)`, ~`(6)`,
-  "Country fixed effects", "No",   "No",   "No",  "Yes",  "Yes",  "Yes")
-attr(rows, "position") <- c(5,6)
+  "Country fixed effects", "No",   "No",   "No",   "Yes",  "Yes",  "Yes")
+
+attr(rows, "position") <- 5
+
+gof <- tribble(
+  ~raw,              ~clean,            ~fmt,
+  "nobs",            "Observations",    0,
+  "r.squared",       "R²",              3,
+  "r2.within",       "Within R²",       3
+)
 
 modelsummary(models, stars = TRUE, coef_map = c("I(TOTAL/EMP)" = "Total temp.",
-                                                "I(M03/EMP)" = "Short duration temp."),
-             add_rows = rows, gof_omit = "IC|Adj|F|RMSE|Log")
+                                                "I(M03/EMP)"   = "Short duration temp."),
+             add_rows = rows, gof_map = gof)
+```
 
+Now purge the short-term temp effect from the separation rate:
+
+```{r warning=FALSE, message=FALSE}
+
+beta <- coef(models$`(5)`)["I(M03/EMP)"]
+df <- df %>% mutate(S_corr = (S/(1-S)*exp(-beta*M03/EMP))/(1+S/(1-S)*exp(-beta*M03/EMP)))
+
+df %>% filter(geo == "HU", !is.na(S_corr)) %>% select(time,S, S_corr) %>%
+  pivot_longer(cols = -time, names_to = "var", values_to = "val") %>%
+  ggplot() + geom_line(aes(x=time,y=val,color=var))
 ```
