@@ -115,13 +115,13 @@ tema <- tema %>% select(-c(`M1-2`,`M3-5`,`M6-11`,`M12-17`,`M18-23`,`M24-35`,`M_G
 
 Calculate quarterly and annual separation rates, adding a correction for temporary workers. Assume that:
 
-- there are heterogeneous workers according to employment contract length $\tau$;
+-   there are heterogeneous workers according to employment contract length $\tau$;
 
-- temporary contracts dissolve after they run out, permanent contracts separate with a probability $\rho$;
+-   temporary contracts dissolve after they run out, permanent contracts separate with a probability $\rho$;
 
-- all workers with contracts less than one period (quarter) will be separated;
+-   all workers with contracts less than one period (quarter) will be separated;
 
-- workers with contract length are distributed uniformly across the remaining time.
+-   workers with contract length are distributed uniformly across the remaining time.
 
 Separations within a period:
 
@@ -160,17 +160,18 @@ library(modelsummary)
 library(tibble)
 
 models <- list("(1)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP), data = df),
-               "(2)" = feols(log(S/(1-S)) ~ I(M03/EMP), data = df),
-               "(3)" = feols(log(S/(1-S)) ~ I(M03/EMP) + I(TOTAL/EMP), data = df),
-               "(4)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP) | geo, data = df),
-               "(5)" = feols(log(S/(1-S)) ~ I(M03/EMP) | geo, data = df),
-               "(6)" = feols(log(S/(1-S)) ~ I(M03/EMP) + I(TOTAL/EMP) | geo, data = df))
+               "(2)" = feols(log(S/(1-S)) ~ I(M03/TOTAL) + I(TOTAL/EMP), data = df),
+               "(3)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP) | geo, data = df),
+               "(4)" = feols(log(S/(1-S)) ~ I(M03/TOTAL) + I(TOTAL/EMP) | geo, data = df),
+               "(5)" = feols(log(S/(1-S)) ~ I(TOTAL/EMP) | geo+time, data = df),
+               "(6)" = feols(log(S/(1-S)) ~ I(M03/TOTAL) + I(TOTAL/EMP) | geo+time, data = df))
 
 rows <- tribble(
   ~term,                   ~`(1)`, ~`(2)`, ~`(3)`, ~`(4)`, ~`(5)`, ~`(6)`,
-  "Country fixed effects", "No",   "No",   "No",   "Yes",  "Yes",  "Yes")
+  "Country fixed effects", "No",   "No",   "Yes",   "Yes",  "Yes",  "Yes",
+  "Time fixed effects",    "No",   "No",   "No",   "No",  "Yes",  "Yes")
 
-attr(rows, "position") <- 5
+attr(rows, "position") <- c(5,6)
 
 gof <- tribble(
   ~raw,              ~clean,            ~fmt,
@@ -179,8 +180,8 @@ gof <- tribble(
   "r2.within",       "Within R²",       3
 )
 
-modelsummary(models, stars = TRUE, coef_map = c("I(TOTAL/EMP)" = "Total temp.",
-                                                "I(M03/EMP)"   = "Short duration temp."),
+modelsummary(models, stars = TRUE, coef_map = c("I(TOTAL/EMP)" = "Total temporary",
+                                                "I(M03/TOTAL)"   = "Short duration share"),
              add_rows = rows, gof_map = gof)
 ```
 
@@ -188,10 +189,18 @@ Now purge the short-term temp effect from the separation rate:
 
 ```{r warning=FALSE, message=FALSE}
 
-beta <- coef(models$`(5)`)["I(M03/EMP)"]
-df <- df %>% mutate(S_corr = (S/(1-S)*exp(-beta*M03/EMP))/(1+S/(1-S)*exp(-beta*M03/EMP)))
+beta <- coef(models$`(5)`)["I(M03/TOTAL)"]
+beta2 <- coef(models$`(4)`)["I(TOTAL/EMP)"]
+beta3 <- coef(models$`(6)`)["I(M03/TOTAL)"]
+beta4 <- coef(models$`(4)`)["I(TOTAL/EMP)"]
 
-df %>% filter(geo == "HU", !is.na(S_corr)) %>% select(time,S, S_corr) %>%
+df <- df %>%
+  mutate(S_corr = (S/(1-S)*exp(-beta*M03/TOTAL))/(1+S/(1-S)*exp(-beta*M03/TOTAL)),
+         S_corr2 = (S/(1-S)*exp(-beta2*TOTAL/EMP))/(1+S/(1-S)*exp(-beta2*TOTAL/EMP)),
+         S_corr3 = (S/(1-S)*exp(-beta4*TOTAL/EMP-beta3*M03/TOTAL))/
+           (1+S/(1-S)*exp(-beta4*TOTAL/EMP-beta3*M03/TOTAL)))
+
+df %>% filter(geo == "ES", !is.na(S_corr)) %>% select(time,S, S_corr, S_corr2, S_corr3) %>%
   pivot_longer(cols = -time, names_to = "var", values_to = "val") %>%
   ggplot() + geom_line(aes(x=time,y=val,color=var))
 ```
